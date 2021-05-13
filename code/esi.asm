@@ -1451,17 +1451,62 @@ lc1ed
 lc1ee
             stx lc222
 
-!byte $8c, $23, $c2, $a0, $00, $b1, $fb, $91, $fd, $a5, $fc, $cd, $22, $c2, $d0, $08, $a5, $fb, $cd, $23, $c2, $d0, $01, $60, $e6, $fb, $d0, $02, $e6, $fc, $e6, $fd, $d0, $e3, $e6, $fe, $4c, $f6, $c1
+
+lc1f1
+            sty lc223
+            ldy #$00
+
+
+lc1f6
+            lda ($fb),y
+            sta ($fd),y
+            lda $fc
+            cmp lc222
+            bne lc209
+            lda $fb
+            cmp lc223
+            bne lc209
+            rts
+
+
+lc209
+            inc $fb
+            bne lc20f
+            inc $fc
+
+
+lc20f
+            inc $fd
+            bne lc1f6
+            inc $fe
+            jmp lc1f6
+
 
 lc218
             stx $fc
 
-!byte $84, $fb, $60
+
+lc21a
+            sty $fb
+            rts
+
 
 lc21d
             stx $fe
 
-!byte $84, $fd, $60, $00, $00
+
+lc21f
+            sty $fd
+            rts
+
+
+lc222
+
+!byte $00
+
+lc223
+
+!byte $00
 
 lc224
             lda #$00

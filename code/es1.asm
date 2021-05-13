@@ -10,11 +10,10 @@ l6000
 
 * = $8710
 l8710
-
 !byte $00
 
 * = $8800
-l8800
+scrolltext
 !scr" *** mini putt *** cracked by eagle soft incorporated on september 9th, 1987... "
 !scr"  again, soho comes through with original!    greetings to nepa, the alliance, t"
 !scr"riad, tti, nick danger, fbr, rad, tsi, cfr, hotline, fairlight(tony), and soho! "
@@ -33,49 +32,43 @@ l8800
 * = $9684
 
 l9684
-            jmp l968e
+            jmp +
 
 
 l9687
             sta $aa
-
-
-l9689
             stx $ab
             jmp l9900
 
-
-l968e
++
             lda lbfff
-            beq l96a1
-            jsr l96a2
+            beq +
+            jsr ++
             ldx #$18
 
-
-l9698
+-
             lda l9c91,x
             sta $d400,x                     ; voice 1 frequency low byte
             dex
-            bpl l9698
+            bpl -
 
-
-l96a1
++
             rts
 
 
-l96a2
+++
             lda l9ca6
             clc
             adc l9bc4
             sta l9ca6
             cmp #$07
-            bcc l96b6
+            bcc +
             and #$07
             sta l9ca6
             sec
 
 
-l96b6
++
             lda l9ca7
             adc l9bc5
             sta l9ca7
@@ -94,22 +87,22 @@ l96c1
             clc
             adc #$01
             cmp l9b9e,y
-            bcc l96f1
+            bcc ++
             inc l9bdc,x
             lda l9bca,x
             clc
             adc #$01
             cmp #$03
-            bcc l96ec
+            bcc +
             lda #$00
 
 
-l96ec
++
             sta l9bca,x
             lda #$00
 
 
-l96f1
+++
             sta l9bd9,x
             lda l9bb4,y
             clc
@@ -121,13 +114,13 @@ l96f1
             sta $ab
 
 
-l9707
+-
             ldy #$00
             lda ($aa),y
             sec
             sbc #$01
             cmp #$20
-            bcs l972f
+            bcs +
             asl
             tay
             lda l9c51,y
@@ -141,45 +134,45 @@ l9707
 l9726
             jsr l9a17
             jsr l9b68
-            jmp l9707
+            jmp -
 
 
-l972f
++
             ldx $ac
             ldy $ad
             lda l9b9a,x
-            bne l973b
+            bne +
             jmp l97f5
 
 
-l973b
++
             lda l9bb4,x
             cmp l9bb3,x
-            bcc l974b
+            bcc +
             lda l9baf,x
-            beq l974b
+            beq +
             jsr l9ae2
 
 
-l974b
++
             lda l9beb,y
-            bne l9756
+            bne +
             jsr l9b74
             jmp l977a
 
 
-l9756
++
             lda l9be8,y
-            beq l976a
+            beq +
             jsr l9b84
             lda l9c94,x
             cmp l9bee,y
             bcs l977a
             lda #$00
-            beq l9777
+            beq ++
 
 
-l976a
++
             jsr l9b74
             lda l9c94,x
             cmp l9beb,y
@@ -187,7 +180,7 @@ l976a
             lda #$01
 
 
-l9777
+++
             sta l9be8,y
 
 
@@ -198,41 +191,41 @@ l977a
             lda l9b9f,x
             beq l97bb
             cmp #$06
-            bcc l9799
+            bcc +
             lda l9bdc,y
             and #$01
             bne l97b3
             lda l9b9f,x
             sec
             sbc #$05
-            bpl l97ad
+            bpl ++
 
 
-l9799
++
             lda l9bb4,x
             cmp #$02
             bcc l97b3
             lda l9b9d,x
-            beq l97aa
+            beq +
             cmp l9bb4,x
             bcc l97b3
 
 
-l97aa
++
             lda l9b9f,x
 
 
-l97ad
+++
             tay
             lda l9c30,y
-            bne l97b6
+            bne +
 
 
 l97b3
             lda l9b9c,x
 
 
-l97b6
++
             sta l9c95,x
             ldy $ad
 
@@ -241,13 +234,13 @@ l97bb
             lda l9ba0,x
             beq l97f5
             cmp #$01
-            bne l97da
+            bne +
             lda l9bdc,y
             and #$01
             bne l97f2
 
 
-l97cb
+-
             lda l9bb0,x
             sta l9c92,x
             lda l9bb1,x
@@ -255,11 +248,11 @@ l97cb
             jmp l97f5
 
 
-l97da
++
             lda l9bca,y
             beq l97f2
             cmp #$01
-            beq l97cb
+            beq -
             lda l9bd6,y
             sta l9c92,x
             lda l9bd3,y
@@ -283,7 +276,7 @@ l97f5
             sta l9bb2,y
             bne l981e
             lda l9c22,x
-            beq l9821
+            beq +
             cmp l9c4e,x
             bcs l981e
             lda l9c95,y
@@ -295,7 +288,7 @@ l981e
             jmp l98ec
 
 
-l9821
++
             lda #$00
             sta l9bb2,y
             sta l9c93,y
@@ -308,13 +301,13 @@ l9821
             sta l9bdc,x
             sta l9bca,x
             cpx l9b96
-            bne l984f
+            bne +
             sta l9ca6
             lda l9bc6
             sta l9ca7
 
 
-l984f
++
             lda l9c06,x
             sta l9c96,y
             lda l9bfd,x
@@ -326,19 +319,19 @@ l984f
 l9861
             ldy #$00
             lda ($aa),y
-            bne l986c
+            bne +
             jsr l9b5d
             beq l98ad
 
 
-l986c
++
             cmp #$80
             bcc l98ad
             clc
             adc l9bf7,x
             sta l9c1e
             lda l9bd0,x
-            beq l988f
+            beq +
             clc
             adc l9c1e
             jsr l9b32
@@ -348,9 +341,9 @@ l986c
             sta l9bd3,x
 
 
-l988f
++
             lda l9bcd,x
-            beq l98a7
+            beq +
             clc
             adc l9c1e
             jsr l9b32
@@ -360,7 +353,7 @@ l988f
             sta l9bb1,y
 
 
-l98a7
++
             lda l9c1e
             jsr l9b32
 
@@ -380,7 +373,7 @@ l98ad
             jsr l9b68
             lda l9c22,x
             cmp #$ff
-            bne l98e3
+            bne +
             lda l9b9b,y
             sta l9bb1,y
             lda l9b9a,y
@@ -388,7 +381,7 @@ l98ad
             jmp l9861
 
 
-l98e3
++
             lda l9c00,x
             sta l9c95,y
             sta l9b9c,y
@@ -409,24 +402,20 @@ l98ec
 l9900
             lda #$00
             ldx #$7b
-
-
-l9904
+-
             sta l9b96,x
             dex
-            bpl l9904
+            bpl -
             ldx #$02
             stx l9c4f
             stx l9c4e
             stx l9c50
-
-
-l9915
+-
             lda #$01
             sta l9c22,x
             sta l9c2b,x
             dex
-            bpl l9915
+            bpl -
             lda $aa
             clc
             adc #$04
@@ -436,9 +425,7 @@ l9915
             sta l9c25
             ldx #$7e
             ldy #$00
-
-
-l9933
+-
             lda ($aa),y
             clc
             adc l9c28
@@ -451,196 +438,120 @@ l9933
             sta l9ba8,x
             iny
             inx
-            bpl l9933
+            bpl -
             lda #$01
             bit $00a9
             sta lbfff
             ldx #$18
             lda #$00
-
-
-l9957
+-
             sta l9c91,x
             dex
-            bpl l9957
+            bpl -
 
 
 l995d
             rts
-
-
-l995e
             sta l9ca9
             rts
-
-
-l9962
             sta l9c00,x
             rts
-
-
-l9966
             sta l9c06,x
             rts
-
-
-l996a
             sta l9bfd,x
             rts
-
-
-l996e
             sta l9c1e
             lda l9bf1,x
-            bne l997f
+            bne +
             inc l9bf1,x
             lda l9c1e
             sta l9c0c,x
-
-
-l997f
++
             dec l9c0c,x
             lda l9c0c,x
-            beq l9992
+            beq +
             lda l9c12,x
             sta $aa
             lda l9c15,x
             sta $ab
             rts
-
-
-l9992
++
             dec l9bf1,x
             rts
-
-
-l9996
             lda $aa
             sta l9c12,x
             lda $ab
             sta l9c15,x
             rts
-
-
-l99a1
             sta l9c1e
             lda l9bf4,x
-            bne l99b2
+            bne +
             inc l9bf4,x
             lda l9c1e
             sta l9c0f,x
-
-
-l99b2
++
             dec l9c0f,x
             lda l9c0f,x
-            beq l99c5
+            beq +
             lda l9c18,x
             sta $aa
             lda l9c1b,x
             sta $ab
             rts
-
-
-l99c5
++
             dec l9bf4,x
             rts
-
-
-l99c9
             lda $aa
             sta l9c18,x
             lda $ab
             sta l9c1b,x
             rts
-
-
-l99d4
             sta l9bf7,x
             rts
-
-
-l99d8
             sta l9c09,x
             rts
-
-
-l99dc
             sta l9b97,x
             rts
-
-
-l99e0
             sta l9bfa,x
             rts
-
-
-l99e4
             sta l9c03,x
             rts
-
-
-l99e8
             cmp #$64
-            bcc l99f3
+            bcc +
             sec
             sbc #$64
             sta l9c4e,x
             rts
-
-
-l99f3
++
             sta l9b9d,y
             rts
-
-
-l99f7
             sta l9b9e,y
             rts
-
-
-l99fb
             cmp #$63
-            bcc l9a06
+            bcc +
             sec
             sbc #$64
             sta l9b96
             rts
-
-
-l9a06
++
             sta l9b9f,y
             rts
-
-
-l9a0a
             sta l9ba0,y
             cmp #$01
-            bne l9a16
+            bne +
             lda #$00
             sta l9bcd,y
-
-
-l9a16
++
             rts
 
 
 l9a17
             sta l9baf,y
             rts
-
-
-l9a1b
             sta l9bc7,x
             rts
-
-
-l9a1f
             sta l9bb3,y
             rts
-
-
-l9a23
             pha
             and #$0f
             sta l9bee,x
@@ -652,43 +563,22 @@ l9a23
             lsr
             sta l9beb,x
             rts
-
-
-l9a34
             sta l9c2b,x
             rts
-
-
-l9a38
             sta l9ca8
             rts
-
-
-l9a3c
             sta l9bc6
             rts
-
-
-l9a40
             clc
             adc l9bf7,x
             sta l9bf7,x
             rts
-
-
-l9a48
             clc
             adc l9ca9
             sta l9ca9
             rts
-
-
-l9a50
             sta l9bd0,x
             rts
-
-
-l9a54
             pha
             and #$f8
             lsr
@@ -699,66 +589,47 @@ l9a54
             and #$07
             sta l9bc4
             rts
-
-
-l9a64
             sta l9bcd,x
             rts
-
-
-l9a68
             rts
-
-
-l9a69
             clc
             adc l9bb2,y
             sta l9bb2,y
             sta l9bdf,x
-
-
-l9a73
+-
             rts
 
 
 l9a74
             lda l9bb2,x
             cmp l9bdf,y
-            bne l9a84
+            bne +
             lda l9bb4,x
             cmp l9bb3,x
-            bcc l9a73
-
-
-l9a84
+            bcc -
++
             lda l9be5,y
             cmp #$01
-            beq l9a95
+            beq +
             cmp #$02
-            beq l9a95
+            beq +
             jsr l9ab4
-            jmp l9a98
-
-
-l9a95
+            jmp ++
++
             jsr l9ac9
-
-
-l9a98
+++
             lda l9be2,y
             clc
             adc #$01
             cmp l9c2b,y
-            bcc l9ab0
+            bcc +
             lda l9be5,y
             clc
             adc #$01
             and #$03
             sta l9be5,y
             lda #$00
-
-
-l9ab0
++
             sta l9be2,y
             rts
 
@@ -771,7 +642,7 @@ l9ab4
             sta l9c91,x
             lda l9b9a,x
             adc #$00
-            jmp l9adb
+            jmp +
 
 
 l9ac9
@@ -784,7 +655,7 @@ l9ac9
             sbc #$00
 
 
-l9adb
++
             sta l9b9a,x
             sta l9c92,x
             rts
@@ -807,11 +678,11 @@ l9af8
             clc
             adc l9bfa,y
             sta l9b9b,x
-            bcc l9b07
+            bcc +
             inc l9b9a,x
 
 
-l9b07
++
             jmp l9b25
 
 
@@ -820,11 +691,11 @@ l9b0a
             sec
             sbc l9bfa,y
             sta l9b9b,x
-            bcs l9b19
+            bcs +
             dec l9b9a,x
 
 
-l9b19
++
             jmp l9b25
 
 
@@ -848,15 +719,15 @@ l9b32
             ldx #$07
 
 
-l9b34
+-
             cmp #$8c
-            bcc l9b3e
+            bcc +
             sbc #$0c
             dex
-            jmp l9b34
+            jmp -
 
 
-l9b3e
++
             sbc #$7f
             asl
             tay
@@ -868,11 +739,11 @@ l9b3e
             beq l9b63
 
 
-l9b52
+-
             lsr l9c20
             ror l9c21
             dex
-            bne l9b52
+            bne -
             beq l9b63
 
 
@@ -892,11 +763,11 @@ l9b68
             clc
             adc #$02
             sta $aa
-            bcc l9b73
+            bcc +
             inc $ab
 
 
-l9b73
++
             rts
 
 
@@ -1235,10 +1106,9 @@ la500
 
 * = $bfff
 lbfff
-
 !byte $00
 
-lc000
+* = CODE_START
             sei
             lda #$36
             sta $01
@@ -1250,25 +1120,21 @@ lc000
             lda #$00
             sta lc1b5
             sta $c6
-
-
-lc01a
+-
             bit $d011                       ; screen control register #1, vertical scroll
-            bpl lc01a
+            bpl -
             jsr lc091
-
-
-lc022
+-
             lda lbfff
-            beq lc02e
+            beq +
             jsr $ffe4                       ; GETIN
-            beq lc022
+            beq -
             bne lc034
 
 
-lc02e
++
             jsr lc36a
-            jmp lc022
+            jmp -
 
 
 lc034
@@ -1281,12 +1147,10 @@ lc034
             jsr $ff81                       ; SCINIT
             ldx #$19
             lda #$00
-
-
-lc049
+-
             sta $d400,x                     ; voice 1 frequency low byte
             dex
-            bpl lc049
+            bpl -
             stx $d021                       ; background color
             stx $d020                       ; border color
             lda #$08
@@ -1294,8 +1158,7 @@ lc049
             tax
             jmp $fce2
 
-!byte $a9, $02, $a2, $70, $a0, $c0, $20, $bd, $ff, $a9, $00, $85, $9d, $20, $d5, $ff, $78, $4c, $e2, $fc, $4d, $50, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-
+* = $c091
 lc091
             sei
             lda #$c7
@@ -1322,8 +1185,6 @@ lc091
             cli
             rts
 
-
-lc0c7
             lda $d019                       ; interrupt status
             and #$01
             beq lc125
@@ -1336,37 +1197,31 @@ lc0c7
             lda #$13
             sta $d018                       ; memory setup
             dec $fd
-            bpl lc0ea
+            bpl +
             lda #$07
             sta $fd
-
-
-lc0ea
++
             dec $fd
             lda $d016                       ; screen control register #2, horizontal scroll, multicolor, screenwidth
             and #$e0
             ora $fd
             sta $d016                       ; screen control register #2, horizontal scroll, multicolor, screenwidth
             ldy #$27
-
-
-lc0f8
+-
             lda lc1b6,y
             sta $dbc0,y
             dey
-            bpl lc0f8
+            bpl -
             ldx lc1b6
             ldy #$00
-
-
-lc106
+-
             iny
             lda lc1b6,y
             dey
             sta lc1b6,y
             iny
             cpy #$38
-            bne lc106
+            bne -
             stx lc1ed
             lda #$36
             sta $0314                       ; IRQ vector routine low byte
@@ -1388,8 +1243,6 @@ lc125
             pla
             rti
 
-
-lc136
             lda $d019                       ; interrupt status
             and #$01
             beq lc195
@@ -1407,16 +1260,14 @@ lc136
             lda $fd
             bne lc186
             tay
-
-
-lc15f
+-
             iny
             lda lc7c0,y
             dey
             sta lc7c0,y
             iny
             cpy #$28
-            bne lc15f
+            bne -
             ldy #$00
             inc $fb
             bne lc174
@@ -1425,15 +1276,13 @@ lc15f
 
 lc174
             lda ($fb),y
-            bne lc183
+            bne +
             lda #$01
             sta $fb
             lda #$a5
             sta $fc
             jmp lc174
-
-
-lc183
++
             sta lc7e7
 
 
@@ -1453,12 +1302,10 @@ lc195
             inc lc1b5
             lda lc1b5
             cmp #$05
-            beq lc1ad
+            beq +
             jsr l9684
             jmp $ea31                       ; KERNAL's standard interrupt routine
-
-
-lc1ad
++
             lda #$00
             sta lc1b5
             jmp $ea31                       ; KERNAL's standard interrupt routine
@@ -1478,22 +1325,49 @@ lc1ed
 
 lc1ee
             stx lc222
+            sty lc223
+            ldy #$00
 
-!byte $8c, $23, $c2, $a0, $00, $b1, $fb, $91, $fd, $a5, $fc, $cd, $22, $c2, $d0, $08, $a5, $fb, $cd, $23, $c2, $d0, $01, $60, $e6, $fb, $d0, $02, $e6, $fc, $e6, $fd, $d0, $e3, $e6, $fe, $4c, $f6, $c1
+
+lc1f6
+            lda ($fb),y
+            sta ($fd),y
+            lda $fc
+            cmp lc222
+            bne +
+            lda $fb
+            cmp lc223
+            bne +
+            rts
++
+            inc $fb
+            bne +
+            inc $fc
++
+            inc $fd
+            bne lc1f6
+            inc $fe
+            jmp lc1f6
 
 lc218
             stx $fc
+            sty $fb
+            rts
 
-!byte $84, $fb, $60
 
 lc21d
             stx $fe
+            sty $fd
+            rts
 
-!byte $84, $fd, $60
 
 lc222
 
-!byte $00, $00
+!byte $00
+
+lc223
+
+!byte $00
 
 lc224
             lda #$00
@@ -1514,7 +1388,7 @@ lc23e
 
 
 lc242
-            lda l8800         ; selfmod
+            lda scrolltext         ; selfmod
 
 lc245
             sta la500,y

@@ -38,7 +38,10 @@
         {"addr": "9a54", "mode": "code"},
         {"addr": "9a64", "mode": "code"},
         {"addr": "9a68", "mode": "code"},
-        {"addr": "9a69", "mode": "code"}
+        {"addr": "9a69", "mode": "code"},
+        {"addr": "c1f1", "mode": "code"},
+        {"addr": "c21a", "mode": "code"},
+        {"addr": "c21f", "mode": "code"}
 
     ]
 }
