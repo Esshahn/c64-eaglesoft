@@ -1329,7 +1329,7 @@ lc1ee
             ldy #$00
 
 
-lc1f6
+-
             lda ($fb),y
             sta ($fd),y
             lda $fc
@@ -1345,9 +1345,9 @@ lc1f6
             inc $fc
 +
             inc $fd
-            bne lc1f6
+            bne -
             inc $fe
-            jmp lc1f6
+            jmp -
 
 lc218
             stx $fc
@@ -1392,18 +1392,16 @@ lc242
 
 lc245
             sta la500,y
-            beq lc267
+            beq ++
             iny
             ora #$80
 
 lc24d
             sta la500,y
             inc lc242+1
-            bne lc258
+            bne +
             inc lc242+2
-
-
-lc258
++
             iny
             bne lc242
             inc lc245+2
@@ -1413,15 +1411,12 @@ lc258
             jmp lc23e
 
 
-lc267
+++
             rts
 
 
 lc268
             lda #$00
-
-
-lc26a
             sta lc2fe+1
             lda #$60
             sta lc300+1
@@ -1475,9 +1470,9 @@ lc27f
             sta $d020                       ; border color
 
 
-lc2dd
+-
             bit $d011                       ; screen control register #1, vertical scroll
-            bpl lc2dd
+            bpl -
             lda $d011                       ; screen control register #1, vertical scroll
             ora #$10
             sta $d011                       ; screen control register #1, vertical scroll
@@ -1486,18 +1481,13 @@ lc2dd
 
 lc2eb
             jsr lc2fe
-
-
-lc2ee
             inc lc2fe+1
             lda lc2fe+1
             and #$0f
             cmp #$08
-            bne lc2fd
+            bne +
             jsr lc32e
-
-
-lc2fd
++
             rts
 
 
@@ -1515,7 +1505,7 @@ lc302
             ldx #$27
 
 
-lc30e
+-
             ldy #$00
             lda ($a5),y
             sta ($a3),y
@@ -1523,22 +1513,18 @@ lc30e
             lda $a5
             adc #$08
             sta $a5
-            bcc lc31f
+            bcc +
             inc $a6
-
-
-lc31f
++
             clc
             lda $a3
             adc #$08
             sta $a3
-            bcc lc32a
+            bcc +
             inc $a4
-
-
-lc32a
++
             dex
-            bpl lc30e
+            bpl -
             rts
 
 
@@ -1554,12 +1540,10 @@ lc32e
             inc lc300+1
             inc lc302+1
             plp
-            bcc lc34f
+            bcc +
             inc lc300+1
             inc lc302+1
-
-
-lc34f
++
             rts
 
 
@@ -1568,26 +1552,26 @@ lc350
             ldx #$c8
 
 
-lc355
+---
             txa
             pha
             jsr lc2eb
             ldx #$0f
 
 
-lc35c
+--
             ldy #$ff
 
 
-lc35e
+-
             dey
-            bne lc35e
+            bne -
             dex
-            bne lc35c
+            bne --
             pla
             tax
             dex
-            bne lc355
+            bne ---
             rts
 
 
