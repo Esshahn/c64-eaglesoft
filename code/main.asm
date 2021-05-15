@@ -11,6 +11,7 @@ BASIC           = $0801
 CODE_START      = $c000
 SCREEN          = $c400
 SCROLLER        = SCREEN + $3c0
+COLORRAM        = $d800
 
 
 ;==========================================================

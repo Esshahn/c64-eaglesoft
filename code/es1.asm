@@ -39,23 +39,18 @@ l9687
             sta $aa
             stx $ab
             jmp l9900
-
 +
             lda lbfff
             beq +
             jsr ++
             ldx #$18
-
 -
             lda l9c91,x
             sta $d400,x                     ; voice 1 frequency low byte
             dex
             bpl -
-
 +
             rts
-
-
 ++
             lda l9ca6
             clc
@@ -66,8 +61,6 @@ l9687
             and #$07
             sta l9ca6
             sec
-
-
 +
             lda l9ca7
             adc l9bc5
@@ -95,13 +88,9 @@ l96c1
             cmp #$03
             bcc +
             lda #$00
-
-
 +
             sta l9bca,x
             lda #$00
-
-
 ++
             sta l9bd9,x
             lda l9bb4,y
@@ -112,8 +101,6 @@ l96c1
             sta $aa
             lda l9c25,x
             sta $ab
-
-
 -
             ldy #$00
             lda ($aa),y
@@ -135,16 +122,12 @@ l9726
             jsr l9a17
             jsr l9b68
             jmp -
-
-
 +
             ldx $ac
             ldy $ad
             lda l9b9a,x
             bne +
             jmp l97f5
-
-
 +
             lda l9bb4,x
             cmp l9bb3,x
@@ -152,15 +135,11 @@ l9726
             lda l9baf,x
             beq +
             jsr l9ae2
-
-
 +
             lda l9beb,y
             bne +
             jsr l9b74
             jmp l977a
-
-
 +
             lda l9be8,y
             beq +
@@ -170,16 +149,12 @@ l9726
             bcs l977a
             lda #$00
             beq ++
-
-
 +
             jsr l9b74
             lda l9c94,x
             cmp l9beb,y
             bcc l977a
             lda #$01
-
-
 ++
             sta l9be8,y
 
@@ -199,8 +174,6 @@ l977a
             sec
             sbc #$05
             bpl ++
-
-
 +
             lda l9bb4,x
             cmp #$02
@@ -209,12 +182,8 @@ l977a
             beq +
             cmp l9bb4,x
             bcc l97b3
-
-
 +
             lda l9b9f,x
-
-
 ++
             tay
             lda l9c30,y
@@ -223,8 +192,6 @@ l977a
 
 l97b3
             lda l9b9c,x
-
-
 +
             sta l9c95,x
             ldy $ad
@@ -238,16 +205,12 @@ l97bb
             lda l9bdc,y
             and #$01
             bne l97f2
-
-
 -
             lda l9bb0,x
             sta l9c92,x
             lda l9bb1,x
             sta l9c91,x
             jmp l97f5
-
-
 +
             lda l9bca,y
             beq l97f2
@@ -286,8 +249,6 @@ l97f5
 
 l981e
             jmp l98ec
-
-
 +
             lda #$00
             sta l9bb2,y
@@ -305,8 +266,6 @@ l981e
             sta l9ca6
             lda l9bc6
             sta l9ca7
-
-
 +
             lda l9c06,x
             sta l9c96,y
@@ -322,8 +281,6 @@ l9861
             bne +
             jsr l9b5d
             beq l98ad
-
-
 +
             cmp #$80
             bcc l98ad
@@ -339,8 +296,6 @@ l9861
             sta l9bd6,x
             lda l9c21
             sta l9bd3,x
-
-
 +
             lda l9bcd,x
             beq +
@@ -351,8 +306,6 @@ l9861
             sta l9bb0,y
             lda l9c21
             sta l9bb1,y
-
-
 +
             lda l9c1e
             jsr l9b32
@@ -379,8 +332,6 @@ l98ad
             lda l9b9a,y
             sta l9bb0,y
             jmp l9861
-
-
 +
             lda l9c00,x
             sta l9c95,y
@@ -1135,19 +1086,19 @@ lbfff
 -
             bit $d011                       ; screen control register #1, vertical scroll
             bpl -
-            jsr lc091
+            jsr setup
 -
             lda lbfff
             beq +
             jsr $ffe4                       ; GETIN
             beq -
-            bne lc034
+            bne exit                        ; if key was pressed, exit
 +
             jsr lc36a
             jmp -
 
 
-lc034
+exit
             sei
             lda #$31
             sta $0314                       ; IRQ vector routine low byte
@@ -1168,8 +1119,11 @@ lc034
             tax
             jmp $fce2
 
+
+
+
 * = $c091
-lc091
+setup
             sei
             lda #<irq
             sta $0314                       ; IRQ vector routine low byte
@@ -1186,14 +1140,20 @@ lc091
             lda $dc0e                       ; CIA #1 - timer A control
             and #$fe
             sta $dc0e                       ; CIA #1 - timer A control
-            lda #$00
+            lda #<la500
             sta $fb
-            lda #$a5
+            lda #>la500
             sta $fc
             lda #$ff
             sta $fd
             cli
             rts
+
+
+;==========================================================
+; irq
+;==========================================================
+
 
 irq
             lda $d019                       ; interrupt status
@@ -1233,10 +1193,10 @@ irq
             iny
             cpy #$38
             bne -
-            stx lc1ed
-            lda #$36
+            stx color_wash_end - 1
+            lda #<irq2
             sta $0314                       ; IRQ vector routine low byte
-            lda #$c1
+            lda #>irq2
             sta $0315                       ; IRQ vector routine high byte
             lda #$10
             sta $d012                       ; raster line
@@ -1254,6 +1214,14 @@ lc125
             pla
             rti
 
+
+
+
+;==========================================================
+; irq2
+;==========================================================
+
+irq2
             lda $d019                       ; interrupt status
             and #$01
             beq lc195
@@ -1327,13 +1295,15 @@ lc1b5
 !byte $00
 
 color_wash
-!byte $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0c, $0c, $0c, $0c, $0c, $0c, $0c, $0c, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $01, $01, $01, $01, $01, $01, $01, $01, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0c, $0c, $0c, $0c, $0c, $0c, $0c, $0c, $0b, $0b, $0b, $0b, $0b, $0b, $0b
+!byte $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0c, $0c, $0c, $0c, $0c, $0c, $0c, $0c, $0f, $0f, $0f, $0f
+!byte $0f, $0f, $0f, $0f, $01, $01, $01, $01, $01, $01, $01, $01, $0f, $0f, $0f, $0f, $0f, $0f, $0f, $0f
+!byte $0c, $0c, $0c, $0c, $0c, $0c, $0c, $0c, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b
+color_wash_end
 
-lc1ed
 
-!byte $0b
 
-lc1ee
+
+copy
             stx lc222
             sty lc223
             ldy #$00
@@ -1359,17 +1329,6 @@ lc1ee
             inc $fe
             jmp -
 
-lc218
-            stx $fc
-            sty $fb
-            rts
-
-
-lc21d
-            stx $fe
-            sty $fd
-            rts
-
 
 lc222
 
@@ -1384,10 +1343,10 @@ lc224
             sta lc242+1
             lda #$88
             sta lc242+2
-            lda #$00
+            lda #<la500
             sta lc245+1
             sta lc24d+1
-            lda #$a5
+            lda #>la500
             sta lc245+2
             sta lc24d+2
 
@@ -1439,7 +1398,7 @@ lc268
 
 
 screenmem
-            sta $e000,x               ; selfmod
+            sta $e000,x                     ; selfmod
             inx
             bne screenmem
             inc screenmem+2
@@ -1447,22 +1406,26 @@ screenmem
             bne screenmem
             ldx #$7f
             ldy #$40
-            jsr lc218
-            ldx #$c4
-            ldy #$00
-            jsr lc21d
+            stx $fc
+            sty $fb
+            ldx #>SCREEN                    ; screen ram?
+            ldy #<SCREEN
+            stx $fe
+            sty $fd
             ldx #$83
             ldy #$27
-            jsr lc1ee
+            jsr copy
             ldx #$83
             ldy #$28
-            jsr lc218
-            ldx #$d8
-            ldy #$00
-            jsr lc21d
+            stx $fc
+            sty $fb
+            ldx #>COLORRAM                  ; color ram?
+            ldy #<COLORRAM
+            stx $fe
+            sty $fd
             ldx #$87
             ldy #$0f
-            jsr lc1ee
+            jsr copy
             lda $dd00                       ; CIA #2 - port A, serial bus access
             and #$fc
             sta $dd00                       ; CIA #2 - port A, serial bus access
@@ -1478,8 +1441,6 @@ screenmem
             sta $d021                       ; background color
             lda #$00
             sta $d020                       ; border color
-
-
 -
             bit $d011                       ; screen control register #1, vertical scroll
             bpl -
@@ -1513,8 +1474,6 @@ lc302
             sty $a3
             stx $a4
             ldx #$27
-
-
 -
             ldy #$00
             lda ($a5),y
