@@ -1201,7 +1201,7 @@ lc174
             sta $fc
             jmp lc174
 +
-            sta charset
+            sta SCROLLER_POS
 
 
 lc186
@@ -1477,7 +1477,6 @@ lc36a
             jmp l9687
 
 
-* = $c7e7
-; likely charset
-charset
-!bin "code/charset.bin",,2
+; charset
+* = $c800
+!bin "code/charset.bin"
