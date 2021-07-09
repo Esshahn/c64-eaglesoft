@@ -1114,7 +1114,7 @@ setup
 irq
             lda $d019                       ; interrupt status
             and #$01
-            beq lc125
+            beq end_first_irq
             inc $ff
             lda #$00
             sta $d021                       ; background color
@@ -1158,7 +1158,7 @@ irq
             sta $d012                       ; raster line
 
 
-lc125
+end_first_irq
             lda #$81
             sta $d019                       ; interrupt status
             sta $d01a                       ; interrupt control
@@ -1180,7 +1180,7 @@ lc125
 irq2
             lda $d019                       ; interrupt status
             and #$01
-            beq lc195
+            beq end_irq
             lda #$00                      
             sta $d021                       ; background color
             lda $d016                       ; screen control register #2, horizontal scroll, multicolor, screenwidth
@@ -1193,7 +1193,7 @@ irq2
             lda #$19
             sta $d018                       ; memory setup
             lda $fd
-            bne lc186
+            bne set_irq
             tay
 -
             iny
@@ -1221,7 +1221,7 @@ lc174
             sta SCROLLER_POS
 
 
-lc186
+set_irq
             lda #<irq
             sta $0314                       ; IRQ vector routine low byte
             lda #>irq
@@ -1230,7 +1230,7 @@ lc186
             sta $d012                       ; raster line
 
 
-lc195
+end_irq
             lda #$81
             sta $d019                       ; interrupt status
             sta $d01a                       ; interrupt control
@@ -1247,7 +1247,6 @@ lc195
 
 
 music_counter
-
 !byte $00
 
 color_wash
@@ -1329,8 +1328,6 @@ lc24d
             dex
             bne lc242
             jmp lc23e
-
-
 ++
             rts
 
