@@ -713,6 +713,3 @@ image_colram
 
 image_colram_end
 
-; background color
-background_color
-!byte $00
