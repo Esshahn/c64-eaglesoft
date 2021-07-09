@@ -1024,7 +1024,7 @@ lbfff
 ---
             txa
             pha
-            jsr lc2eb
+            jsr display_image
             ldx #$0f
 --
             ldy #$ff
@@ -1334,7 +1334,7 @@ lc24d
 
 setscreen
             lda #<IMAGE                       ; $6000
-            sta lc2fe+1                       ; set image location
+            sta image_line_by_line_copy+1                       ; set image location
             lda #>IMAGE
             sta lc300+1
             lda #$e0
@@ -1397,20 +1397,20 @@ screenmem
             rts
 
 
-lc2eb
-            jsr lc2fe
-            inc lc2fe+1
-            lda lc2fe+1
+display_image
+            jsr image_line_by_line_copy
+            inc image_line_by_line_copy+1
+            lda image_line_by_line_copy+1
             and #$0f
             cmp #$08
             bne +
-            lda lc2fe+1
+            lda image_line_by_line_copy+1
             and #$f0
-            sta lc2fe+1
+            sta image_line_by_line_copy+1
             clc
-            lda lc2fe+1
+            lda image_line_by_line_copy+1
             adc #$40
-            sta lc2fe+1
+            sta image_line_by_line_copy+1
             php
             inc lc300+1
             inc lc302+1
@@ -1422,15 +1422,16 @@ lc2eb
             rts
 
 
-lc2fe
+image_line_by_line_copy
+
             ldy #$00
 lc300
             lda #>IMAGE
 lc302
             ldx #$e0
             sty $a5
-            sta $a6
             sty $a3
+            sta $a6
             stx $a4
             ldx #$27                      ; image width in chars when animating
 -
