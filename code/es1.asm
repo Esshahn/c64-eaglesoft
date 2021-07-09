@@ -1425,7 +1425,7 @@ lc2eb
 lc2fe
             ldy #$00
 lc300
-            lda #$60
+            lda #>IMAGE
 lc302
             ldx #$e0
             sty $a5
