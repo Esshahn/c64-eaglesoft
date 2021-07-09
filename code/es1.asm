@@ -1021,13 +1021,13 @@ lbfff
             sta $d011                       ; screen control register #1, vertical scroll
             jsr setscreen
             ldx #$c8
----
+display_loop
             txa
             pha
             jsr display_image
-            ldx #$0f
+            ldx #$0f                        ; speed of image being displayed
 --
-            ldy #$ff
+            ldy #$ff                        ; speed of image being displayed
 -
             dey
             bne -
@@ -1036,8 +1036,8 @@ lbfff
             pla
             tax
             dex
-            bne ---
-            jsr lc224
+            bne display_loop
+            jsr setup_scroller
             jsr reset_music
             lda #$00
             sta music_counter
@@ -1288,11 +1288,11 @@ tmp_address
 
 
 
-lc224
+setup_scroller
             lda #<scrolltext
-            sta lc242+1
+            sta scrolltext_char_pos+1
             lda #>scrolltext
-            sta lc242+2
+            sta scrolltext_char_pos+2
             lda #<la500
             sta lc245+1
             sta lc24d+1
@@ -1301,12 +1301,12 @@ lc224
             sta lc24d+2
 
 
-lc23e
+-
             ldx #$02
             ldy #$00
 
 
-lc242
+scrolltext_char_pos
             lda scrolltext         ; selfmod
 
 lc245
@@ -1317,17 +1317,17 @@ lc245
 
 lc24d
             sta la500,y
-            inc lc242+1
+            inc scrolltext_char_pos+1
             bne +
-            inc lc242+2
+            inc scrolltext_char_pos+2
 +
             iny
-            bne lc242
+            bne scrolltext_char_pos
             inc lc245+2
             inc lc24d+2
             dex
-            bne lc242
-            jmp lc23e
+            bne scrolltext_char_pos
+            jmp -
 ++
             rts
 
